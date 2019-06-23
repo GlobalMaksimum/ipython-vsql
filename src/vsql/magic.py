@@ -48,8 +48,8 @@ class SqlMagic(Magics, Configurable):
         self.shell.configurables.append(self)
 
     @needs_local_scope
-    @line_magic('sql')
-    @cell_magic('sql')
+    @line_magic('vsql')
+    @cell_magic('vsql')
     def execute(self, line, cell='', local_ns={}):
         """Runs SQL statement against a database, specified by SQLAlchemy connect string.
 

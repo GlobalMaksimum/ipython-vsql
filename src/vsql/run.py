@@ -313,14 +313,14 @@ class FakeResultProxy(object):
     def from_list(self, source_list):
         "Simulates SQLA ResultProxy from a list."
 
-        self.fetchall = lambda: source_list 
+        self.fetchall = lambda: source_list
         self.rowcount = len(source_list)
 
         def fetchmany(size):
-            pos = 0 
+            pos = 0
             while pos < len(source_list):
                 yield source_list[pos:pos+size]
-                pos += size 
+                pos += size
 
         self.fetchmany = fetchmany
 
@@ -361,6 +361,9 @@ def run(conn, sql, config, user_namespace):
             else:
                 txt = sqlalchemy.sql.text(statement)
                 result = conn.session.execute(txt, user_namespace)
+
+                with conn.cursor() as cur:
+                    cur.execute(txt).fetchall()
             _commit(conn=conn, config=config)
             if result and config.feedback:
                 print(interpret_rowcount(result.rowcount))
