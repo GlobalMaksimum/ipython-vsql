@@ -15,9 +15,9 @@ except ImportError:
 
 from sqlalchemy.exc import ProgrammingError, OperationalError
 
-import sql.connection
-import sql.parse
-import sql.run
+import vsql.connection
+import vsql.parse
+import vsql.run
 import vertica_python
 import os
 import pandas as pd
@@ -111,7 +111,7 @@ class VerticaSqlMagic(Magics, Configurable):
         user_ns = self.shell.user_ns.copy()
         user_ns.update(local_ns)
 
-        parsed = sql.parse.parse('%s\n%s' % (line, cell), self)
+        parsed = vsql.parse.parse('%s\n%s' % (line, cell), self)
         flags = parsed['flags']
         try:
 
