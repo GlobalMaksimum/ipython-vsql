@@ -193,12 +193,12 @@ class VerticaSqlMagic(Magics, Configurable):
                             )
 
                             return result
-                else:
-                    with vertica_python.connect(**get_connection_dict()) as conn:
-                        with conn.cursor() as cur:
-                            cur.execute(parsed["sql"])
+            else:
+                with vertica_python.connect(**get_connection_dict()) as conn:
+                    with conn.cursor() as cur:
+                        cur.execute(parsed["sql"])
 
-                    return "OK"
+                return "OK"
 
         except Exception as e:
             print(e)
