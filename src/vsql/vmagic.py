@@ -21,6 +21,7 @@ import vsql.run
 import vertica_python
 import os
 import pandas as pd
+import sqlparse
 
 
 def get_connection_dict():
@@ -114,11 +115,17 @@ class VerticaSqlMagic(Magics, Configurable):
         parsed = vsql.parse.parse('%s\n%s' % (line, cell), self)
         flags = parsed['flags']
         try:
+            sql_type = sqlparse.parse(parsed['sql']).get_type()
 
-            with vertica_python.connect(**get_connection_dict()) as conn:
-                result = pd.read_sql(parsed['sql'], conn)
-
+            if sql_type == 'SELECT':
+                with vertica_python.connect(**get_connection_dict()) as conn:
+                    result = pd.read_sql(parsed['sql'], conn)
+                    
                 return result
+            else:
+                with vertica_python.connect(**get_connection_dict()) as conn:
+                    conn.execute(parsed['sql'])
+                return 'OK'
 
         except Exception as e:
             print(e)
