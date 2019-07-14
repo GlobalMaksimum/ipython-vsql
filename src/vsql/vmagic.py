@@ -60,7 +60,7 @@ def get_connection_dict():
         # using server-side prepared statements is disabled by default
         "use_prepared_statements": False,
         # connection timeout is not enabled by default
-        "connection_timeout": os.environ.get("VERTICA_TIMEOUT", 5),
+        "connection_timeout": os.environ.get("VERTICA_TIMEOUT", 100),
     }
 
 
