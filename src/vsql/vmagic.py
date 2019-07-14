@@ -120,7 +120,7 @@ class VerticaSqlMagic(Magics, Configurable):
             if sql_type == 'SELECT':
                 with vertica_python.connect(**get_connection_dict()) as conn:
                     result = pd.read_sql(parsed['sql'], conn)
-                    
+
                 return result
             else:
                 with vertica_python.connect(**get_connection_dict()) as conn:
